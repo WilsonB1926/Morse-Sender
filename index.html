@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Morse Code Trainer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav id="page-nav">
+        <button class="nav-btn active" id="nav-sender">Zender</button>
+        <div class="nav-dots">
+            <span class="dot active" id="dot-sender"></span>
+            <span class="dot" id="dot-decoder"></span>
+        </div>
+        <button class="nav-btn" id="nav-decoder">Decoder</button>
+    </nav>
+    <div class="swipe-hint">&#8592; swipe &#8594;</div>
+
+    <div id="viewport">
+        <div id="pages">
+
+            <section class="page" id="page-sender">
+                <h1>Morse Code Sender</h1>
+
+                <button id="settings-toggle">⚙️ Show Settings</button>
+
+                <div id="settings-panel">
+                    <div class="setting-row">
+                        <label for="wpm-speed">Character Speed (WPM):</label>
+                        <input type="number" id="wpm-speed" value="20" min="5" max="50">
+                    </div>
+                    <div class="setting-row">
+                        <label>Farnsworth Spacing:</label>
+                        <label class="switch">
+                            <input type="checkbox" id="farnsworth-toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-row" id="farnsworth-factor-row">
+                        <label for="farnsworth-wpm">Spacing Speed (WPM):</label>
+                        <input type="number" id="farnsworth-wpm" value="12" min="5" max="49" disabled>
+                    </div>
+                    <div class="setting-row">
+                        <label for="frequency">Tone Pitch (Hz):</label>
+                        <input type="number" id="frequency" value="600" min="300" max="1200">
+                    </div>
+                    <div class="setting-row">
+                        <label for="link-passphrase">Link-wachtwoord (optioneel):</label>
+                        <input type="text" id="link-passphrase" placeholder="automatisch" autocomplete="off">
+                    </div>
+                </div>
+
+                <div id="display-container"></div>
+
+                <div class="pad">
+                    <button class="btn" id="dot-btn">.</button>
+                    <button class="btn" id="dash-btn">-</button>
+                </div>
+
+                <div class="pad" style="margin-top: 0;">
+                    <button class="btn utility-btn" id="space-btn">Space (Word)</button>
+                    <button class="btn utility-btn" id="backspace-btn" style="background-color: #f0ad4e;">🔙</button>
+                    <button class="btn utility-btn" id="clear-btn" style="background-color: #d9534f;">Clear</button>
+                </div>
+
+                <!-- Audio generatie knoppen -->
+                <div class="pad" style="margin-top: 0; flex-direction: column; gap: 10px;">
+                    <button class="btn utility-btn" id="play-string-btn" style="background-color: #5cb85c; width: 100%;">▶️ Play Full Sequence</button>
+                    <button class="btn utility-btn" id="share-audio-btn" style="background-color: #0275d8; width: 100%; display: none;">📤 Share Audio track</button>
+                    <button class="btn utility-btn" id="copy-link-btn" style="background-color: #6f42c1; width: 100%; display: none;">Kopieer berichttekst</button>
+                    <button class="btn utility-btn" id="copy-pass-btn" style="background-color: #6f42c1; width: 100%; display: none;">Kopieer wachtwoord</button>
+                </div>
+            </section>
+
+            <section class="page" id="page-decoder">
+                <h1>Morse Code Decoder</h1>
+
+                <!-- Ontvangen audio decoderen -->
+                <div class="pad" style="margin-top: 0; flex-direction: column; gap: 10px;">
+                    <h2 id="decode-heading">Ontvangen bericht decoderen</h2>
+                    <label class="btn utility-btn" id="decode-file-btn" for="audio-file-input">📥 Kies audiobestand...</label>
+                    <input type="file" id="audio-file-input" accept="audio/*" style="display: none;">
+                    <div id="link-passphrase-prompt" style="display: none;">
+                        <div class="decode-label">Deze link bevat een versleuteld bericht. Wachtwoord:</div>
+                        <div style="display: flex; gap: 8px;">
+                            <input type="password" id="link-pass-input" placeholder="plak wachtwoord..." autocomplete="off">
+                            <button class="btn utility-btn" id="link-decrypt-btn">Ontgrendel</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="decode-output">
+                    <div class="decode-label">Morse:</div>
+                    <div id="decode-morse"></div>
+                    <div class="decode-label">Tekst:</div>
+                    <div id="decode-text"></div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Laad eerst de audio-generator en daarna pas de knoppen-logica -->
+    <script src="audio-generator.js"></script>
+    <script src="audio-decoder.js"></script>
+    <script src="share-link.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
